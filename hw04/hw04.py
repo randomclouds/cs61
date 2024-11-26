@@ -13,6 +13,12 @@ def shuffle(s):
     """
     assert len(s) % 2 == 0, 'len(seq) must be even'
     "*** YOUR CODE HERE ***"
+    le = len(s)
+    s0, s1 = s[:le//2], s[le//2:]
+    ss = []
+    for i in range(le//2):
+        ss.extend([s0[i], s1[i]])
+    return ss
 
 
 def deep_map(f, s):
@@ -38,7 +44,11 @@ def deep_map(f, s):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    for i,_ in enumerate(s):
+        if type(s[i]) == list:
+            deep_map(f, s[i])
+        else: 
+            s[i] = f(s[i])
 
 HW_SOURCE_FILE=__file__
 
@@ -47,11 +57,13 @@ def planet(mass):
     """Construct a planet of some mass."""
     assert mass > 0
     "*** YOUR CODE HERE ***"
+    return ['planet', mass]
 
 def mass(p):
     """Select the mass of a planet."""
     assert is_planet(p), 'must call mass on a planet'
     "*** YOUR CODE HERE ***"
+    return p[1]
 
 def is_planet(p):
     """Whether p is a planet."""
@@ -104,7 +116,15 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    assert is_mobile(m), 'm should be a moblile\n'
+    l, r = left(m), right(m)
+    le, re = end(l), end(r)
+    res = True
+    if is_mobile(le):
+        res=res and balanced(le)
+    if is_mobile(re):
+        res = res and balanced(re)
+    return length(l)*total_mass(end(l)) == length(r)*total_mass(end(r)) and res
 
 def berry_finder(t):
     """Returns True if t contains a node with the value 'berry' and 
@@ -124,6 +144,12 @@ def berry_finder(t):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return label(t)=='berry'
+    a = False
+    for branch in branches(t):
+        a = a or berry_finder(branch)
+    return label(t)=='berry' or a
 
 
 HW_SOURCE_FILE=__file__
@@ -139,6 +165,14 @@ def max_path_sum(t):
     17
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return label(t)
+    m = 0
+    for branch in branches(t):
+        path = max_path_sum(branch)
+        if path > m:
+            m = path
+    return m + label(t)
 
 
 def mobile(left, right):
