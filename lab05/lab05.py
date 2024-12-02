@@ -27,6 +27,10 @@ def insert_items(s, before, after):
     True
     """
     "*** YOUR CODE HERE ***"
+    for i in range(len(s)-1, -1, -1):
+        if s[i]==before:
+            s.insert(i+1, after)
+    return s
 
 
 def group_by(s, fn):
@@ -40,12 +44,12 @@ def group_by(s, fn):
     {9: [-3, 3], 4: [-2, 2], 1: [-1, 1], 0: [0]}
     """
     grouped = {}
-    for ____ in ____:
-        key = ____
+    for val in s:
+        key = fn(val)
         if key in grouped:
-            ____
+            grouped[key].append(val)
         else:
-            grouped[key] = ____
+            grouped[key] =[val]
     return grouped
 
 
@@ -71,6 +75,7 @@ def count_occurrences(t, n, x):
     2
     """
     "*** YOUR CODE HERE ***"
+    return sum([1 for i in [next(t) for _ in range(n)] if i == x])
 
 
 def repeated(t, k):
@@ -94,6 +99,17 @@ def repeated(t, k):
     """
     assert k > 1
     "*** YOUR CODE HERE ***"
+    count=0
+    current_val=...
+    for val in t:
+        if val==current_val:
+            count+=1
+        else:
+            current_val=val
+            count=1
+        if count==k:
+            return current_val
+    return None
 
 
 def sprout_leaves(t, leaves):
@@ -130,6 +146,10 @@ def sprout_leaves(t, leaves):
           2
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return tree(label(t), [tree(l) for l in leaves])
+    else:
+        return tree(label(t), [sprout_leaves(branch, leaves) for branch in branches(t)])
 
 
 def partial_reverse(s, start):
@@ -145,6 +165,12 @@ def partial_reverse(s, start):
     [1, 2, 7, 6, 5, 3, 4]
     """
     "*** YOUR CODE HERE ***"
+    be,en=start, len(s)-1
+    while be<en:
+        s[be],s[en]=s[en],s[be]
+        be+=1
+        en-=1
+
 
 
 
