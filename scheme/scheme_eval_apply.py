@@ -34,6 +34,11 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
     else:
         # BEGIN PROBLEM 3
         "*** YOUR CODE HERE ***"
+        first = scheme_eval(first, env)
+        if first in scheme_forms.SPECIAL_FORMS:
+            return scheme_forms.SPECIAL_FORMS[first](rest, env)
+        else:
+            return scheme_apply(first, rest, env)
         # END PROBLEM 3
 
 def scheme_apply(procedure, args, env):
@@ -55,7 +60,7 @@ def scheme_apply(procedure, args, env):
         try:
             # BEGIN PROBLEM 2
             "*** YOUR CODE HERE ***"
-            return procedure.py_func(*python_arg, )
+            return procedure.py_func(*python_arg)
             # END PROBLEM 2
         except TypeError as err:
             raise SchemeError('incorrect number of arguments: {0}'.format(procedure))
